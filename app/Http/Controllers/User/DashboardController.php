@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Models\Product;
 
 class DashboardController extends Controller
 {
@@ -12,6 +13,36 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('user.dashboard');
+        $user = auth()->user();
+        
+        // Statistics
+        $totalOrders = $user->orders()->count();
+        $pendingOrders = $user->orders()->where('status', 'pending')->count();
+        $approvedOrders = $user->orders()->where('status', 'approved')->count();
+        $wishlistCount = $user->wishlists()->count();
+        
+        // Recent Orders
+        $recentOrders = $user->orders()
+            ->with('orderItems.product')
+            ->latest()
+            ->take(5)
+            ->get();
+        
+        // Latest Products
+        $latestProducts = Product::active()
+            ->inStock()
+            ->with(['category', 'unit'])
+            ->latest()
+            ->take(6)
+            ->get();
+        
+        return view('user.dashboard', compact(
+            'totalOrders',
+            'pendingOrders',
+            'approvedOrders',
+            'wishlistCount',
+            'recentOrders',
+            'latestProducts'
+        ));
     }
 }

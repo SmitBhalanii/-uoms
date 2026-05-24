@@ -87,33 +87,38 @@
                         </a>
                     </li>
 
-                    <!-- My Orders -->
+                    <!-- Products -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-shopping-cart"></i>
-                            <p>My Orders</p>
-                        </a>
-                    </li>
-
-                    <!-- Create Order -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-plus-circle"></i>
-                            <p>Create Order</p>
-                        </a>
-                    </li>
-
-                    <!-- Available Products -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('user.products.index') }}" class="nav-link {{ request()->routeIs('user.products.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-boxes"></i>
-                            <p>Available Products</p>
+                            <p>Products</p>
+                        </a>
+                    </li>
+
+                    <!-- Wishlist -->
+                    <li class="nav-item">
+                        <a href="{{ route('user.wishlist.index') }}" class="nav-link {{ request()->routeIs('user.wishlist.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-heart"></i>
+                            <p>
+                                Wishlist
+                                @if(auth()->user()->wishlists()->count() > 0)
+                                    <span class="badge badge-danger right">{{ auth()->user()->wishlists()->count() }}</span>
+                                @endif
+                            </p>
+                        </a>
+                    </li>
+
+                    <!-- New Order -->
+                    <li class="nav-item">
+                        <a href="{{ route('user.orders.create') }}" class="nav-link {{ request()->routeIs('user.orders.create') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-plus-circle"></i>
+                            <p>New Order</p>
                         </a>
                     </li>
 
                     <!-- Order History -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('user.orders.index') }}" class="nav-link {{ request()->routeIs('user.orders.index') || request()->routeIs('user.orders.show') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-history"></i>
                             <p>Order History</p>
                         </a>
@@ -121,10 +126,21 @@
 
                     <!-- Profile -->
                     <li class="nav-item">
-                        <a href="{{ route('profile.edit') }}" class="nav-link">
+                        <a href="{{ route('user.profile.edit') }}" class="nav-link {{ request()->routeIs('user.profile.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user"></i>
-                            <p>My Profile</p>
+                            <p>Profile</p>
                         </a>
+                    </li>
+
+                    <!-- Logout -->
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                            @csrf
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>Logout</p>
+                            </a>
+                        </form>
                     </li>
                 </ul>
             </nav>
