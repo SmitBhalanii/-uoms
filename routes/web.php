@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
@@ -27,7 +28,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('departments', DepartmentController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('units', UnitController::class);
-    Route::resource('products', ProductController::class);
+    Route::resource('products', AdminProductController::class);
     
     // Orders Management
     Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');

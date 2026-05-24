@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -22,6 +23,7 @@ class DashboardController extends Controller
         
         // Other Statistics
         $totalUsers = User::where('role', 'user')->count();
+        $totalDepartments = Department::count();
         $totalProducts = Product::count();
         $lowStockProducts = Product::where('stock_quantity', '<', 10)->count();
         
@@ -37,6 +39,7 @@ class DashboardController extends Controller
             'approvedOrders',
             'rejectedOrders',
             'totalUsers',
+            'totalDepartments',
             'totalProducts',
             'lowStockProducts',
             'recentOrders'

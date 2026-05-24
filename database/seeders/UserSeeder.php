@@ -20,29 +20,17 @@ class UserSeeder extends Seeder
             'email' => 'admin@uoms.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
+            'department' => 'Administration',
         ]);
 
         // Create Lab Manager User
         User::create([
             'name' => 'Lab Manager',
-            'email' => 'user@uoms.com',
+            'email' => 'labmanager@uoms.com',
             'password' => Hash::make('password'),
             'role' => 'user',
-        ]);
-
-        // Create additional test users
-        User::create([
-            'name' => 'John Doe',
-            'email' => 'john@uoms.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
-        ]);
-
-        User::create([
-            'name' => 'Jane Smith',
-            'email' => 'jane@uoms.com',
-            'password' => Hash::make('password'),
-            'role' => 'user',
+            'department' => 'Computer Lab',
+            'phone' => '1234567890',
         ]);
     }
 }
