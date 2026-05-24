@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderPlaced;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -99,10 +101,16 @@ class OrderController extends Controller
             // Clear wishlist
             auth()->user()->wishlists()->delete();
             
+            // Load order relationships for email
+            $order->load('orderItems.product.category', 'orderItems.product.unit', 'user');
+            
+            // Send email notification
+            Mail::to($order->user->email)->send(new OrderPlaced($order));
+            
             DB::commit();
             
             return redirect()->route('user.orders.index')
-                ->with('success', 'Order placed successfully!');
+                ->with('success', 'Order placed successfully! A confirmation email has been sent.');
                 
         } catch (\Exception $e) {
             DB::rollBack();

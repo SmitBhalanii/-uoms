@@ -134,19 +134,19 @@
                         </a>
                     </li>
 
+                    <!-- Reports -->
+                    <li class="nav-item">
+                        <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-chart-bar"></i>
+                            <p>Reports</p>
+                        </a>
+                    </li>
+
                     <!-- Users Management -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>Users Management</p>
-                        </a>
-                    </li>
-
-                    <!-- Reports -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-bar"></i>
-                            <p>Reports</p>
                         </a>
                     </li>
 

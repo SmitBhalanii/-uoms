@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -56,12 +58,23 @@ class OrderController extends Controller
             'remarks' => 'nullable|string|max:500',
         ]);
         
+        // Store old status for email
+        $oldStatus = $order->status;
+        
         $order->update([
             'status' => $validated['status'],
             'remarks' => $validated['remarks'] ?? $order->remarks,
         ]);
         
+        // Load relationships for email
+        $order->load('user', 'orderItems.product.category', 'orderItems.product.unit');
+        
+        // Send email notification if status changed
+        if ($oldStatus !== $order->status) {
+            Mail::to($order->user->email)->send(new OrderStatusUpdated($order, $oldStatus));
+        }
+        
         return redirect()->route('admin.orders.show', $order)
-            ->with('success', 'Order status updated successfully!');
+            ->with('success', 'Order status updated successfully! Email notification sent to user.');
     }
 }

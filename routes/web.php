@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\ProductController as UserProductController;
 use App\Http\Controllers\User\WishlistController as UserWishlistController;
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::put('orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+    
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 // User Routes
