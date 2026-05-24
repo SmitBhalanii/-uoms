@@ -126,19 +126,19 @@
                         </a>
                     </li>
 
+                    <!-- Orders Management -->
+                    <li class="nav-item">
+                        <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-shopping-cart"></i>
+                            <p>Orders</p>
+                        </a>
+                    </li>
+
                     <!-- Users Management -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>Users Management</p>
-                        </a>
-                    </li>
-
-                    <!-- Orders Management -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-shopping-cart"></i>
-                            <p>Orders</p>
                         </a>
                     </li>
 

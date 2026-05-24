@@ -10,24 +10,61 @@
     <!-- Info boxes -->
     <div class="row">
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>{{ $totalOrders }}</h3>
                     <p>Total Orders</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('admin.orders.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-6">
-            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ $pendingOrders }}</h3>
+                    <p>Pending Orders</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>53</h3>
+                    <h3>{{ $approvedOrders }}</h3>
+                    <p>Approved Orders</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <a href="{{ route('admin.orders.index', ['status' => 'approved']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ $rejectedOrders }}</h3>
+                    <p>Rejected Orders</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <a href="{{ route('admin.orders.index', ['status' => 'rejected']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Row -->
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+                <div class="inner">
+                    <h3>{{ $totalUsers }}</h3>
                     <p>Lab Managers</p>
                 </div>
                 <div class="icon">
@@ -36,135 +73,98 @@
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-secondary">
                 <div class="inner">
-                    <h3>44</h3>
-                    <p>Pending Orders</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>325</h3>
-                    <p>Products in Inventory</p>
+                    <h3>{{ $totalProducts }}</h3>
+                    <p>Total Products</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-boxes"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('admin.products.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ $lowStockProducts }}</h3>
+                    <p>Low Stock Products</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <a href="{{ route('admin.products.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
     </div>
-    <!-- /.row -->
 
     <!-- Main row -->
     <div class="row">
-        <!-- Left col -->
-        <section class="col-lg-7 connectedSortable">
-            <!-- Custom tabs (Charts with tabs)-->
+        <section class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">
-                        <i class="fas fa-chart-pie mr-1"></i>
+                        <i class="fas fa-list mr-1"></i>
                         Recent Orders
                     </h3>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.orders.index') }}" class="btn btn-sm btn-primary">View All</a>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Lab Manager</th>
-                                    <th>Product</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#ORD001</td>
-                                    <td>John Doe</td>
-                                    <td>Lab Equipment Set</td>
-                                    <td><span class="badge badge-warning">Pending</span></td>
-                                    <td>{{ date('Y-m-d') }}</td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD002</td>
-                                    <td>Jane Smith</td>
-                                    <td>Chemical Reagents</td>
-                                    <td><span class="badge badge-success">Approved</span></td>
-                                    <td>{{ date('Y-m-d') }}</td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD003</td>
-                                    <td>Mike Johnson</td>
-                                    <td>Safety Equipment</td>
-                                    <td><span class="badge badge-info">Processing</span></td>
-                                    <td>{{ date('Y-m-d') }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    @if($recentOrders->isEmpty())
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> No orders yet.
+                        </div>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Order Number</th>
+                                        <th>User</th>
+                                        <th>Department</th>
+                                        <th>Total Items</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($recentOrders as $order)
+                                    <tr>
+                                        <td><strong>{{ $order->order_number }}</strong></td>
+                                        <td>{{ $order->user->name }}</td>
+                                        <td>{{ $order->user->department ?? 'N/A' }}</td>
+                                        <td>{{ $order->total_items }}</td>
+                                        <td>
+                                            @if($order->status == 'pending')
+                                                <span class="badge badge-warning">Pending</span>
+                                            @elseif($order->status == 'approved')
+                                                <span class="badge badge-success">Approved</span>
+                                            @elseif($order->status == 'rejected')
+                                                <span class="badge badge-danger">Rejected</span>
+                                            @elseif($order->status == 'processing')
+                                                <span class="badge badge-info">Processing</span>
+                                            @elseif($order->status == 'completed')
+                                                <span class="badge badge-dark">Completed</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $order->created_at->format('d M Y') }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-sm btn-info">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
                 </div>
             </div>
-            <!-- /.card -->
         </section>
-        <!-- /.Left col -->
-
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-        <section class="col-lg-5 connectedSortable">
-            <!-- Calendar -->
-            <div class="card bg-gradient-success">
-                <div class="card-header border-0">
-                    <h3 class="card-title">
-                        <i class="far fa-calendar-alt"></i>
-                        Quick Stats
-                    </h3>
-                </div>
-                <div class="card-body pt-0">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Today's Orders</span>
-                                    <span class="info-box-number text-center text-muted mb-0">12</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">This Week</span>
-                                    <span class="info-box-number text-center text-muted mb-0">45</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">This Month</span>
-                                    <span class="info-box-number text-center text-muted mb-0">150</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.card -->
-        </section>
-        <!-- right col -->
     </div>
-    <!-- /.row (main row) -->
 @endsection

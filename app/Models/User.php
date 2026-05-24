@@ -67,7 +67,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
-
     /**
      * Check if product is in wishlist.
      */
@@ -75,4 +74,5 @@ class User extends Authenticatable
     {
         return $this->wishlists()->where('product_id', $productId)->exists();
     }
+    
 }

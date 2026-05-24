@@ -12,15 +12,9 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'order_number',
+        'total_items',
         'status',
-        'notes',
-        'admin_notes',
-        'approved_at',
-        'approved_by',
-    ];
-
-    protected $casts = [
-        'approved_at' => 'datetime',
+        'remarks',
     ];
 
     /**
@@ -40,24 +34,25 @@ class Order extends Model
     }
 
     /**
-     * Get the admin who approved the order.
-     */
-    public function approvedBy()
-    {
-        return $this->belongsTo(User::class, 'approved_by');
-    }
-
-    /**
-     * Generate unique order number.
+     * Generate unique order number in format UOMS-YYYY-0001.
      */
     public static function generateOrderNumber()
     {
-        $prefix = 'ORD';
-        $date = date('Ymd');
-        $lastOrder = self::whereDate('created_at', today())->latest()->first();
-        $number = $lastOrder ? (int)substr($lastOrder->order_number, -4) + 1 : 1;
+        $year = date('Y');
+        $prefix = 'UOMS-' . $year . '-';
         
-        return $prefix . $date . str_pad($number, 4, '0', STR_PAD_LEFT);
+        $lastOrder = self::whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
+        
+        if ($lastOrder) {
+            $lastNumber = (int) substr($lastOrder->order_number, -4);
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        
+        return $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -74,5 +69,29 @@ class Order extends Model
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
+    }
+
+    /**
+     * Scope for rejected orders.
+     */
+    public function scopeRejected($query)
+    {
+        return $query->where('status', 'rejected');
+    }
+
+    /**
+     * Scope for processing orders.
+     */
+    public function scopeProcessing($query)
+    {
+        return $query->where('status', 'processing');
+    }
+
+    /**
+     * Scope for completed orders.
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 'completed');
     }
 }
