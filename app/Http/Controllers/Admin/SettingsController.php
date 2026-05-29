@@ -1,47 +1,43 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-class ProfileController extends Controller
+class SettingsController extends Controller
 {
     /**
-     * Show the form for editing the profile.
+     * Display settings page.
      */
-    public function edit()
+    public function index()
     {
         $user = auth()->user();
-        return view('user.profile.edit', compact('user'));
+        return view('admin.settings.index', compact('user'));
     }
-    
+
     /**
-     * Update the user's profile.
+     * Update admin profile.
      */
-    public function update(Request $request)
+    public function updateProfile(Request $request)
     {
         $user = auth()->user();
-        
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'college_name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:20',
-            'bill_to_address' => 'nullable|string',
-            'ship_to_address' => 'nullable|string',
-            'department' => 'nullable|string|max:255',
         ]);
-        
+
         $user->update($validated);
-        
+
         return back()->with('success', 'Profile updated successfully.');
     }
-    
+
     /**
-     * Update the user's password.
+     * Update admin password.
      */
     public function updatePassword(Request $request)
     {
@@ -49,17 +45,17 @@ class ProfileController extends Controller
             'current_password' => 'required',
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
-        
+
         $user = auth()->user();
-        
+
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Current password is incorrect.']);
         }
-        
+
         $user->update([
             'password' => Hash::make($request->password),
         ]);
-        
+
         return back()->with('success', 'Password changed successfully.');
     }
 }
