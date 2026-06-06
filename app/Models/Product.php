@@ -22,6 +22,7 @@ class Product extends Model
         'category_id',
         'regular_price',
         'contract_price',
+        'stock_quantity',
         'description',
         'image',
         'status',
@@ -36,6 +37,7 @@ class Product extends Model
         'status' => 'boolean',
         'regular_price' => 'decimal:2',
         'contract_price' => 'decimal:2',
+        'stock_quantity' => 'integer',
     ];
 
     /**

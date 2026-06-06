@@ -100,6 +100,17 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="stock_quantity">No. of Pieces <span class="text-danger">*</span></label>
+                                    <input type="number" name="stock_quantity" id="stock_quantity" class="form-control @error('stock_quantity') is-invalid @enderror" value="{{ old('stock_quantity', 0) }}" min="0" required>
+                                    @error('stock_quantity')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                    <small class="form-text text-muted">Available stock quantity</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="image">Product Image</label>
                                     <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
                                     @error('image')

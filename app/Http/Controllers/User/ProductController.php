@@ -15,14 +15,14 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = Product::active()
-            ->with(['category', 'unit']);
+            ->with(['category', 'brand']);
         
         // Search
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('product_name', 'like', "%{$search}%")
-                  ->orWhere('product_code', 'like', "%{$search}%");
+                  ->orWhere('sku', 'like', "%{$search}%");
             });
         }
         
@@ -42,10 +42,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load(['category', 'unit']);
+        $product->load(['category', 'brand']);
         $relatedProducts = Product::active()
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
+            ->with(['brand'])
             ->take(4)
             ->get();
         

@@ -71,6 +71,14 @@
                                         <td><strong class="text-success">₹{{ number_format($product->contract_price, 2) }}</strong></td>
                                     </tr>
                                     <tr>
+                                        <th>Stock Quantity</th>
+                                        <td>
+                                            <span class="badge badge-{{ $product->stock_quantity > 50 ? 'success' : ($product->stock_quantity > 0 ? 'warning' : 'danger') }}">
+                                                {{ $product->stock_quantity }} Pieces
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <th>Status</th>
                                         <td>
                                             @if($product->status)

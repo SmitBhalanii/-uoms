@@ -72,6 +72,7 @@
                                     <th>Product Name</th>
                                     <th>Brand</th>
                                     <th>Category</th>
+                                    <th>No. of Pieces</th>
                                     <th>Regular Price</th>
                                     <th>Contract Price</th>
                                     <th>Status</th>
@@ -86,6 +87,11 @@
                                         <td>{{ $product->product_name }}</td>
                                         <td>{{ $product->brand->brand_name ?? 'N/A' }}</td>
                                         <td>{{ $product->category->category_name ?? 'N/A' }}</td>
+                                        <td>
+                                            <span class="badge badge-{{ $product->stock_quantity > 50 ? 'success' : ($product->stock_quantity > 0 ? 'warning' : 'danger') }}">
+                                                {{ $product->stock_quantity }}
+                                            </span>
+                                        </td>
                                         <td>₹{{ number_format($product->regular_price, 2) }}</td>
                                         <td>₹{{ number_format($product->contract_price, 2) }}</td>
                                         <td>
@@ -113,7 +119,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="9" class="text-center">No products found.</td>
+                                        <td colspan="10" class="text-center">No products found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

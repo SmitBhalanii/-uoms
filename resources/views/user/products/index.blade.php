@@ -55,9 +55,19 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $product->product_name }}</h5>
                     <p class="card-text">
-                        <small class="text-muted">{{ $product->product_code }}</small><br>
+                        <small class="text-muted">SKU: {{ $product->sku }}</small><br>
+                        @if($product->brand)
+                            <span class="badge badge-primary">{{ $product->brand->brand_name }}</span>
+                        @endif
                         <span class="badge badge-info">{{ $product->category->category_name ?? 'N/A' }}</span>
-                        <span class="badge badge-secondary">Stock: {{ $product->stock_quantity }}</span>
+                        <br>
+                        <span class="badge badge-{{ $product->stock_quantity > 50 ? 'success' : ($product->stock_quantity > 0 ? 'warning' : 'danger') }}">
+                            Stock: {{ $product->stock_quantity }} Pieces
+                        </span>
+                    </p>
+                    <p class="card-text">
+                        <strong>₹{{ number_format($product->regular_price, 2) }}</strong>
+                        <small class="text-success">(Contract: ₹{{ number_format($product->contract_price, 2) }})</small>
                     </p>
                     <p class="card-text">{{ Str::limit($product->description, 80) }}</p>
                 </div>
