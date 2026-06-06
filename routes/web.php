@@ -47,6 +47,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Master Modules
     Route::resource('departments', DepartmentController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('brands', App\Http\Controllers\Admin\BrandController::class);
     Route::resource('units', UnitController::class);
     Route::resource('products', AdminProductController::class);
     

@@ -16,12 +16,13 @@ class Product extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'category_id',
-        'unit_id',
+        'sku',
         'product_name',
-        'product_code',
+        'brand_id',
+        'category_id',
+        'regular_price',
+        'contract_price',
         'description',
-        'stock_quantity',
         'image',
         'status',
     ];
@@ -33,7 +34,8 @@ class Product extends Model
      */
     protected $casts = [
         'status' => 'boolean',
-        'stock_quantity' => 'integer',
+        'regular_price' => 'decimal:2',
+        'contract_price' => 'decimal:2',
     ];
 
     /**
@@ -45,11 +47,11 @@ class Product extends Model
     }
 
     /**
-     * Get the unit that owns the product.
+     * Get the brand that owns the product.
      */
-    public function unit(): BelongsTo
+    public function brand(): BelongsTo
     {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(Brand::class);
     }
 
     /**
@@ -58,13 +60,5 @@ class Product extends Model
     public function scopeActive($query)
     {
         return $query->where('status', true);
-    }
-
-    /**
-     * Scope a query to only include in-stock products.
-     */
-    public function scopeInStock($query)
-    {
-        return $query->where('stock_quantity', '>', 0);
     }
 }

@@ -16,20 +16,25 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'unit']);
+        $query = Product::with(['category', 'brand']);
 
         // Search
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('product_name', 'like', "%{$search}%")
-                  ->orWhere('product_code', 'like', "%{$search}%");
+                  ->orWhere('sku', 'like', "%{$search}%");
             });
         }
 
         // Filter by category
         if ($request->has('category_id') && $request->category_id != '') {
             $query->where('category_id', $request->category_id);
+        }
+
+        // Filter by brand
+        if ($request->has('brand_id') && $request->brand_id != '') {
+            $query->where('brand_id', $request->brand_id);
         }
 
         // Filter by status
@@ -39,8 +44,9 @@ class ProductController extends Controller
 
         $products = $query->latest()->paginate(10);
         $categories = Category::active()->get();
+        $brands = \App\Models\Brand::active()->get();
 
-        return view('admin.products.index', compact('products', 'categories'));
+        return view('admin.products.index', compact('products', 'categories', 'brands'));
     }
 
     /**
@@ -49,8 +55,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::active()->get();
-        $units = Unit::active()->get();
-        return view('admin.products.create', compact('categories', 'units'));
+        $brands = \App\Models\Brand::active()->get();
+        return view('admin.products.create', compact('categories', 'brands'));
     }
 
     /**
@@ -59,12 +65,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'unit_id' => 'required|exists:units,id',
+            'sku' => 'required|string|max:255|unique:products,sku',
             'product_name' => 'required|string|max:255',
-            'product_code' => 'required|string|max:255|unique:products,product_code',
+            'brand_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'regular_price' => 'required|numeric|min:0',
+            'contract_price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
-            'stock_quantity' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'boolean',
         ]);
@@ -85,7 +92,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load(['category', 'unit']);
+        $product->load(['category', 'brand']);
         return view('admin.products.show', compact('product'));
     }
 
@@ -95,8 +102,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::active()->get();
-        $units = Unit::active()->get();
-        return view('admin.products.edit', compact('product', 'categories', 'units'));
+        $brands = \App\Models\Brand::active()->get();
+        return view('admin.products.edit', compact('product', 'categories', 'brands'));
     }
 
     /**
@@ -105,12 +112,13 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'unit_id' => 'required|exists:units,id',
+            'sku' => 'required|string|max:255|unique:products,sku,' . $product->id,
             'product_name' => 'required|string|max:255',
-            'product_code' => 'required|string|max:255|unique:products,product_code,' . $product->id,
+            'brand_id' => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'regular_price' => 'required|numeric|min:0',
+            'contract_price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
-            'stock_quantity' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'boolean',
         ]);

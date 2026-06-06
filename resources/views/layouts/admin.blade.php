@@ -88,8 +88,8 @@
                     </li>
 
                     <!-- Master Data -->
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item has-treeview {{ request()->routeIs('admin.departments.*') || request()->routeIs('admin.categories.*') || request()->routeIs('admin.brands.*') || request()->routeIs('admin.units.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ request()->routeIs('admin.departments.*') || request()->routeIs('admin.categories.*') || request()->routeIs('admin.brands.*') || request()->routeIs('admin.units.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-database"></i>
                             <p>
                                 Master Data
@@ -107,6 +107,12 @@
                                 <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Categories</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.brands.index') }}" class="nav-link {{ request()->routeIs('admin.brands.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Product Brands</p>
                                 </a>
                             </li>
                             <li class="nav-item">
