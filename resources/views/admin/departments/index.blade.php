@@ -22,18 +22,18 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th style="width: 60px;">Sr No</th>
                                 <th>Department Name</th>
                                 <th>Lab Code</th>
                                 <th>HOD Name</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th style="width: 200px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($departments as $department)
                                 <tr>
-                                    <td>{{ $department->id }}</td>
+                                    <td>{{ ($departments->currentPage() - 1) * $departments->perPage() + $loop->iteration }}</td>
                                     <td>{{ $department->department_name }}</td>
                                     <td><span class="badge badge-info">{{ $department->lab_code }}</span></td>
                                     <td>{{ $department->hod_name ?? 'N/A' }}</td>

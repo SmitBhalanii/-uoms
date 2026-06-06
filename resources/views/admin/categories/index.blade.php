@@ -22,17 +22,17 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th style="width: 60px;">Sr No</th>
                                 <th>Category Name</th>
                                 <th>Products Count</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th style="width: 200px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($categories as $category)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
+                                    <td>{{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}</td>
                                     <td>{{ $category->category_name }}</td>
                                     <td><span class="badge badge-info">{{ $category->products_count }}</span></td>
                                     <td>

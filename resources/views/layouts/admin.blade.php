@@ -35,26 +35,40 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- User Account Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-                    <i class="far fa-user"></i> {{ Auth::user()->name }} <i class="fas fa-caret-down ml-1"></i>
+            <li class="nav-item dropdown user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=007bff&color=fff&size=128" class="user-image img-circle elevation-2" alt="User Image" style="width: 32px; height: 32px;">
+                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
-                        <i class="fas fa-user mr-2"></i> Profile
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ route('admin.settings.index') }}" class="dropdown-item">
-                        <i class="fas fa-cog mr-2"></i> Settings
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="dropdown-item text-danger">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                        </button>
-                    </form>
-                </div>
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                    <!-- User image -->
+                    <li class="user-header bg-primary text-center" style="min-height: 175px;">
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=ffffff&color=007bff&size=128" class="img-circle elevation-2" alt="User Image" style="width: 80px; height: 80px; margin-top: 20px;">
+                        <p class="mt-2 mb-1 text-white">
+                            <strong>{{ Auth::user()->name }}</strong>
+                        </p>
+                        <p class="mb-2">
+                            <span class="badge bg-warning text-dark">{{ strtoupper(Auth::user()->role) }}</span>
+                        </p>
+                    </li>
+                    <!-- Menu Footer-->
+                    <li class="user-footer">
+                        <div class="d-flex justify-content-between p-2">
+                            <a href="{{ route('profile.edit') }}" class="btn btn-default btn-sm">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="{{ route('admin.settings.index') }}" class="btn btn-default btn-sm">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-default btn-sm text-danger">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
             </li>
         </ul>
     </nav>

@@ -35,16 +35,22 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <th style="width: 200px;">Product ID</th>
-                                        <td>{{ $product->id }}</td>
+                                        <th style="width: 200px;">SKU</th>
+                                        <td><strong>{{ $product->sku }}</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Product Name</th>
                                         <td>{{ $product->product_name }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Product Code</th>
-                                        <td>{{ $product->product_code }}</td>
+                                        <th>Brand</th>
+                                        <td>
+                                            @if($product->brand)
+                                                <span class="badge badge-primary">{{ $product->brand->brand_name }}</span>
+                                            @else
+                                                <span class="text-muted">N/A</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Category</th>
@@ -57,22 +63,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Unit</th>
-                                        <td>
-                                            @if($product->unit)
-                                                {{ $product->unit->unit_name }} ({{ $product->unit->short_name }})
-                                            @else
-                                                <span class="text-muted">N/A</span>
-                                            @endif
-                                        </td>
+                                        <th>Regular Price</th>
+                                        <td><strong>₹{{ number_format($product->regular_price, 2) }}</strong></td>
                                     </tr>
                                     <tr>
-                                        <th>Stock Quantity</th>
-                                        <td>
-                                            <span class="badge badge-{{ $product->stock_quantity > 0 ? 'success' : 'danger' }}">
-                                                {{ $product->stock_quantity }}
-                                            </span>
-                                        </td>
+                                        <th>Contract Price</th>
+                                        <td><strong class="text-success">₹{{ number_format($product->contract_price, 2) }}</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Status</th>

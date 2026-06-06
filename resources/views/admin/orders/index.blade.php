@@ -57,18 +57,20 @@
                         <table class="table table-bordered table-hover">
                             <thead class="bg-light">
                                 <tr>
+                                    <th style="width: 60px;">Sr No</th>
                                     <th>Order Number</th>
                                     <th>User Name</th>
                                     <th>Department</th>
                                     <th>Total Items</th>
                                     <th>Status</th>
                                     <th>Date</th>
-                                    <th width="100">Action</th>
+                                    <th style="width: 100px;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($orders as $order)
                                 <tr>
+                                    <td>{{ ($orders->currentPage() - 1) * $orders->perPage() + $loop->iteration }}</td>
                                     <td><strong>{{ $order->order_number }}</strong></td>
                                     <td>{{ $order->user->name }}</td>
                                     <td>{{ $order->user->department ?? 'N/A' }}</td>

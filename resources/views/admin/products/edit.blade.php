@@ -26,6 +26,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="sku">SKU <span class="text-danger">*</span></label>
+                                    <input type="text" name="sku" id="sku" class="form-control @error('sku') is-invalid @enderror" value="{{ old('sku', $product->sku) }}" required>
+                                    @error('sku')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                    <small class="form-text text-muted">Unique product SKU code</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="product_name">Product Name <span class="text-danger">*</span></label>
                                     <input type="text" name="product_name" id="product_name" class="form-control @error('product_name') is-invalid @enderror" value="{{ old('product_name', $product->product_name) }}" required>
                                     @error('product_name')
@@ -36,9 +47,16 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="product_code">Product Code <span class="text-danger">*</span></label>
-                                    <input type="text" name="product_code" id="product_code" class="form-control @error('product_code') is-invalid @enderror" value="{{ old('product_code', $product->product_code) }}" required>
-                                    @error('product_code')
+                                    <label for="brand_id">Product Brand <span class="text-danger">*</span></label>
+                                    <select name="brand_id" id="brand_id" class="form-control @error('brand_id') is-invalid @enderror" required>
+                                        <option value="">Select Brand</option>
+                                        @foreach($brands as $brand)
+                                            <option value="{{ $brand->id }}" {{ old('brand_id', $product->brand_id) == $brand->id ? 'selected' : '' }}>
+                                                {{ $brand->brand_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('brand_id')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -46,7 +64,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="category_id">Category <span class="text-danger">*</span></label>
+                                    <label for="category_id">Product Category <span class="text-danger">*</span></label>
                                     <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
                                         <option value="">Select Category</option>
                                         @foreach($categories as $category)
@@ -63,16 +81,9 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="unit_id">Unit <span class="text-danger">*</span></label>
-                                    <select name="unit_id" id="unit_id" class="form-control @error('unit_id') is-invalid @enderror" required>
-                                        <option value="">Select Unit</option>
-                                        @foreach($units as $unit)
-                                            <option value="{{ $unit->id }}" {{ old('unit_id', $product->unit_id) == $unit->id ? 'selected' : '' }}>
-                                                {{ $unit->unit_name }} ({{ $unit->short_name }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('unit_id')
+                                    <label for="regular_price">Regular Price <span class="text-danger">*</span></label>
+                                    <input type="number" name="regular_price" id="regular_price" step="0.01" class="form-control @error('regular_price') is-invalid @enderror" value="{{ old('regular_price', $product->regular_price) }}" min="0" required>
+                                    @error('regular_price')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -80,9 +91,9 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="stock_quantity">Stock Quantity <span class="text-danger">*</span></label>
-                                    <input type="number" name="stock_quantity" id="stock_quantity" class="form-control @error('stock_quantity') is-invalid @enderror" value="{{ old('stock_quantity', $product->stock_quantity) }}" min="0" required>
-                                    @error('stock_quantity')
+                                    <label for="contract_price">Contract Price <span class="text-danger">*</span></label>
+                                    <input type="number" name="contract_price" id="contract_price" step="0.01" class="form-control @error('contract_price') is-invalid @enderror" value="{{ old('contract_price', $product->contract_price) }}" min="0" required>
+                                    @error('contract_price')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
