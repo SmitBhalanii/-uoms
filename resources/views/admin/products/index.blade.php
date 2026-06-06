@@ -22,10 +22,20 @@
                     <!-- Search and Filter Form -->
                     <form method="GET" action="{{ route('admin.products.index') }}" class="mb-3">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request('search') }}">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <select name="brand_id" class="form-control">
+                                    <option value="">All Brands</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{ $brand->id }}" {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
+                                            {{ $brand->brand_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
                                 <select name="category_id" class="form-control">
                                     <option value="">All Categories</option>
                                     @foreach($categories as $category)
@@ -53,66 +63,62 @@
                         </div>
                     </form>
 
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Image</th>
-                                <th>Product Name</th>
-                                <th>Code</th>
-                                <th>Category</th>
-                                <th>Unit</th>
-                                <th>Stock</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($products as $product)
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
                                 <tr>
-                                    <td>{{ $product->id }}</td>
-                                    <td>
-                                        @if($product->image)
-                                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->product_name }}" style="width: 50px; height: 50px; object-fit: cover;">
-                                        @else
-                                            <img src="https://via.placeholder.com/50" alt="No Image">
-                                        @endif
-                                    </td>
-                                    <td>{{ $product->product_name }}</td>
-                                    <td>{{ $product->product_code }}</td>
-                                    <td>{{ $product->category->category_name ?? 'N/A' }}</td>
-                                    <td>{{ $product->unit->unit_name ?? 'N/A' }}</td>
-                                    <td><span class="badge badge-info">{{ $product->stock_quantity }}</span></td>
-                                    <td>
-                                        @if($product->status)
-                                            <span class="badge badge-success">Active</span>
-                                        @else
-                                            <span class="badge badge-danger">Inactive</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin.products.show', $product) }}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('admin.products.destroy', $product) }}" method="POST" style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <th style="width: 60px;">Sr No</th>
+                                    <th>SKU</th>
+                                    <th>Product Name</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Regular Price</th>
+                                    <th>Contract Price</th>
+                                    <th>Status</th>
+                                    <th style="width: 200px;">Actions</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="9" class="text-center">No products found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse($products as $product)
+                                    <tr>
+                                        <td>{{ ($products->currentPage() - 1) * $products->perPage() + $loop->iteration }}</td>
+                                        <td><strong>{{ $product->sku }}</strong></td>
+                                        <td>{{ $product->product_name }}</td>
+                                        <td>{{ $product->brand->brand_name ?? 'N/A' }}</td>
+                                        <td>{{ $product->category->category_name ?? 'N/A' }}</td>
+                                        <td>₹{{ number_format($product->regular_price, 2) }}</td>
+                                        <td>₹{{ number_format($product->contract_price, 2) }}</td>
+                                        <td>
+                                            @if($product->status)
+                                                <span class="badge badge-success">Active</span>
+                                            @else
+                                                <span class="badge badge-danger">Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.products.show', $product) }}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('admin.products.destroy', $product) }}" method="POST" style="display:inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center">No products found.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="card-footer clearfix">
                     {{ $products->links() }}

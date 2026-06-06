@@ -7,32 +7,6 @@
 @endsection
 
 @section('content')
-    <!-- Welcome Section with Logout Button -->
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="card bg-gradient-primary">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h3 class="text-white mb-0">
-                                <i class="fas fa-user-shield"></i> Welcome, {{ Auth::user()->name }}!
-                            </h3>
-                            <p class="text-white mb-0">Admin Dashboard - University Order Management System</p>
-                        </div>
-                        <div>
-                            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-danger btn-lg">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Info boxes -->
     <div class="row">
         <div class="col-lg-3 col-6">

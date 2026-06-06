@@ -34,19 +34,23 @@
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <!-- User Account -->
+            <!-- User Account Dropdown -->
             <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-user"></i> {{ Auth::user()->name }}
+                <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                    <i class="far fa-user"></i> {{ Auth::user()->name }} <i class="fas fa-caret-down ml-1"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <a href="{{ route('profile.edit') }}" class="dropdown-item">
                         <i class="fas fa-user mr-2"></i> Profile
                     </a>
                     <div class="dropdown-divider"></div>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <a href="{{ route('admin.settings.index') }}" class="dropdown-item">
+                        <i class="fas fa-cog mr-2"></i> Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
-                        <button type="submit" class="dropdown-item">
+                        <button type="submit" class="dropdown-item text-danger">
                             <i class="fas fa-sign-out-alt mr-2"></i> Logout
                         </button>
                     </form>

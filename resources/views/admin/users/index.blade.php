@@ -42,24 +42,24 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th style="width: 60px;">Sr No</th>
                                     <th>Name</th>
-                                    <th>Email</th>
                                     <th>College Name</th>
                                     <th>Department</th>
+                                    <th>Email</th>
                                     <th>Phone</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th style="width: 180px;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($users as $user)
                                     <tr>
-                                        <td>{{ $user->id }}</td>
+                                        <td>{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
                                         <td>{{ $user->college_name ?? 'N/A' }}</td>
                                         <td>{{ $user->department ?? 'N/A' }}</td>
+                                        <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone ?? 'N/A' }}</td>
                                         <td>
                                             @if($user->is_active ?? true)
