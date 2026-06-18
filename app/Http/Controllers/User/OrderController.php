@@ -42,7 +42,7 @@ class OrderController extends Controller
     {
         $wishlistItems = auth()->user()
             ->wishlists()
-            ->with('product.category', 'product.unit')
+            ->with('product.category', 'product.brand')
             ->get();
         
         if ($wishlistItems->isEmpty()) {
@@ -102,7 +102,7 @@ class OrderController extends Controller
             auth()->user()->wishlists()->delete();
             
             // Load order relationships for email
-            $order->load('orderItems.product.category', 'orderItems.product.unit', 'user');
+            $order->load('orderItems.product.category', 'orderItems.product.brand', 'user');
             
             // Send email notification
             Mail::to($order->user->email)->send(new OrderPlaced($order));
@@ -128,7 +128,7 @@ class OrderController extends Controller
             abort(403);
         }
         
-        $order->load('orderItems.product.category', 'orderItems.product.unit');
+        $order->load('orderItems.product.category', 'orderItems.product.brand');
         
         return view('user.orders.show', compact('order'));
     }

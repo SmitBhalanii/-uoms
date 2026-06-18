@@ -43,7 +43,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $order->load('user', 'orderItems.product.category', 'orderItems.product.unit');
+        $order->load('user', 'orderItems.product.category', 'orderItems.product.brand');
         
         return view('admin.orders.show', compact('order'));
     }
@@ -67,7 +67,7 @@ class OrderController extends Controller
         ]);
         
         // Load relationships for email
-        $order->load('user', 'orderItems.product.category', 'orderItems.product.unit');
+        $order->load('user', 'orderItems.product.category', 'orderItems.product.brand');
         
         // Send email notification if status changed
         if ($oldStatus !== $order->status) {
