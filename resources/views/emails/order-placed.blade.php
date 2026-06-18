@@ -128,7 +128,7 @@
                     <tr>
                         <td>{{ $item->product->product_name }}</td>
                         <td>{{ $item->product->category->category_name ?? 'N/A' }}</td>
-                        <td>{{ $item->quantity }} {{ $item->product->unit->short_name ?? 'pcs' }}</td>
+                        <td>{{ $item->quantity }} pieces</td>
                     </tr>
                     @endforeach
                 </tbody>

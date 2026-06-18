@@ -63,4 +63,12 @@ class Product extends Model
     {
         return $query->where('status', true);
     }
+
+    /**
+     * Scope a query to only include products in stock.
+     */
+    public function scopeInStock($query)
+    {
+        return $query->where('stock_quantity', '>', 0);
+    }
 }

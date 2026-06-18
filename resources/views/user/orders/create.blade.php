@@ -57,7 +57,7 @@
                                         <td>{{ $item->product->category->category_name ?? 'N/A' }}</td>
                                         <td>
                                             <span class="badge badge-info">
-                                                {{ $item->product->stock_quantity }} {{ $item->product->unit->short_name ?? 'pcs' }}
+                                                {{ $item->product->stock_quantity }} pieces
                                             </span>
                                         </td>
                                         <td>

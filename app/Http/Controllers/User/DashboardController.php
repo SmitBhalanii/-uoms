@@ -31,7 +31,7 @@ class DashboardController extends Controller
         // Latest Products
         $latestProducts = Product::active()
             ->inStock()
-            ->with(['category', 'unit'])
+            ->with(['category', 'brand'])
             ->latest()
             ->take(6)
             ->get();

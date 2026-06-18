@@ -60,7 +60,7 @@
                                     <td>
                                         @if($wishlist->product->stock_quantity > 0)
                                             <span class="badge badge-success">
-                                                {{ $wishlist->product->stock_quantity }} {{ $wishlist->product->unit->short_name ?? 'pcs' }}
+                                                {{ $wishlist->product->stock_quantity }} pieces
                                             </span>
                                         @else
                                             <span class="badge badge-danger">Out of Stock</span>

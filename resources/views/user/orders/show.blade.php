@@ -90,7 +90,7 @@
                                     <small class="text-muted">{{ $item->product->product_code }}</small>
                                 </td>
                                 <td>{{ $item->product->category->category_name ?? 'N/A' }}</td>
-                                <td>{{ $item->quantity }} {{ $item->product->unit->short_name ?? 'pcs' }}</td>
+                                <td>{{ $item->quantity }} pieces</td>
                             </tr>
                             @endforeach
                         </tbody>

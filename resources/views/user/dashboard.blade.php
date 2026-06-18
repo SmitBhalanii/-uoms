@@ -160,10 +160,13 @@
                                     <div class="card-body p-2">
                                         <h6 class="card-title mb-1">{{ Str::limit($product->product_name, 30) }}</h6>
                                         <p class="card-text small mb-1">
+                                            @if($product->brand)
+                                                <span class="badge badge-primary">{{ $product->brand->brand_name }}</span>
+                                            @endif
                                             <span class="badge badge-info">{{ $product->category->category_name }}</span>
                                         </p>
                                         <p class="card-text small mb-2">
-                                            Stock: <strong>{{ $product->stock_quantity }} {{ $product->unit->short_name }}</strong>
+                                            <strong>Stock: {{ $product->stock_quantity }} pieces</strong>
                                         </p>
                                         <form action="{{ route('user.wishlist.add', $product) }}" method="POST">
                                             @csrf
