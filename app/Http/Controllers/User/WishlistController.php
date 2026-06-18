@@ -16,7 +16,7 @@ class WishlistController extends Controller
     {
         $wishlists = auth()->user()
             ->wishlists()
-            ->with('product.category', 'product.unit')
+            ->with('product.category', 'product.brand')
             ->latest()
             ->paginate(10);
         
