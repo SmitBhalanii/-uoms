@@ -128,12 +128,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.brands.index') }}" class="nav-link {{ request()->routeIs('admin.brands.*') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Product Brands</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="{{ route('admin.units.index') }}" class="nav-link {{ request()->routeIs('admin.units.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Units</p>
@@ -143,11 +137,34 @@
                     </li>
 
                     <!-- Products Management -->
-                    <li class="nav-item">
-                        <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->routeIs('admin.products.*') || request()->routeIs('admin.brands.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ request()->routeIs('admin.products.*') || request()->routeIs('admin.brands.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-boxes"></i>
-                            <p>Products</p>
+                            <p>
+                                Products
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.index') || request()->routeIs('admin.products.show') || request()->routeIs('admin.products.edit') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Product List</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.products.create') }}" class="nav-link {{ request()->routeIs('admin.products.create') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add Product</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.brands.index') }}" class="nav-link {{ request()->routeIs('admin.brands.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Product Brands</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <!-- Orders Management -->

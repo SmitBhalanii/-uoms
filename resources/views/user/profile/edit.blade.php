@@ -8,10 +8,13 @@
 
 @section('content')
 <div class="row">
+    <!-- Profile Information -->
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Update Profile Information</h3>
+                <h3 class="card-title">
+                    <i class="fas fa-user-edit"></i> Update Profile Information
+                </h3>
             </div>
             <form action="{{ route('user.profile.update') }}" method="POST">
                 @csrf
@@ -83,9 +86,12 @@
     </div>
 
     <div class="col-md-6">
+        <!-- Change Password -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Change Password</h3>
+                <h3 class="card-title">
+                    <i class="fas fa-key"></i> Change Password
+                </h3>
             </div>
             <form action="{{ route('user.profile.password') }}" method="POST">
                 @csrf
@@ -105,6 +111,7 @@
                         @error('password')
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
+                        <small class="form-text text-muted">Minimum 8 characters</small>
                     </div>
 
                     <div class="form-group">
@@ -118,6 +125,47 @@
                     </button>
                 </div>
             </form>
+        </div>
+
+        <!-- Account Information -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-info-circle"></i> Account Information
+                </h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="width: 150px;">Role</th>
+                            <td>
+                                <span class="badge badge-primary">
+                                    LAB MANAGER
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Account Status</th>
+                            <td>
+                                @if($user->is_active ?? true)
+                                    <span class="badge badge-success">Active</span>
+                                @else
+                                    <span class="badge badge-danger">Inactive</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Member Since</th>
+                            <td>{{ $user->created_at->format('d M Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Updated</th>
+                            <td>{{ $user->updated_at->format('d M Y, h:i A') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

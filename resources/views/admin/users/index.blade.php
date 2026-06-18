@@ -43,22 +43,22 @@
                             <thead>
                                 <tr>
                                     <th style="width: 60px;">Sr No</th>
-                                    <th>Name</th>
-                                    <th>College Name</th>
                                     <th>Department</th>
+                                    <th>College Name</th>
+                                    <th>Name</th>
                                     <th>Email</th>
-                                    <th>Phone</th>
+                                    <th>Phone No</th>
                                     <th>Status</th>
-                                    <th style="width: 180px;">Actions</th>
+                                    <th style="width: 180px;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($users as $user)
                                     <tr>
                                         <td>{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->college_name ?? 'N/A' }}</td>
                                         <td>{{ $user->department ?? 'N/A' }}</td>
+                                        <td>{{ $user->college_name ?? 'N/A' }}</td>
+                                        <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone ?? 'N/A' }}</td>
                                         <td>
