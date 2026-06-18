@@ -61,7 +61,7 @@
         <!-- Brand Logo -->
         <a href="{{ route('user.dashboard') }}" class="brand-link">
             <img src="https://adminlte.io/themes/v3/dist/img/AdminLTELogo.png" alt="UOMS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">UOMS Lab Manager</span>
+            <span class="brand-text font-weight-light">UOMS<br><small>Lab Manager</small></span>
         </a>
 
         <!-- Sidebar -->
