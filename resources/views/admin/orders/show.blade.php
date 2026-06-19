@@ -58,14 +58,14 @@
                         <strong>Current Status:</strong><br>
                         @if($order->status == 'pending')
                             <span class="badge badge-warning">Pending</span>
+                        @elseif($order->status == 'processing')
+                            <span class="badge" style="background-color: #17a2b8; color: white;">Processing</span>
                         @elseif($order->status == 'approved')
-                            <span class="badge badge-success">Approved</span>
+                            <span class="badge" style="background-color: #3498db; color: white;">Approved</span>
                         @elseif($order->status == 'rejected')
                             <span class="badge badge-danger">Rejected</span>
-                        @elseif($order->status == 'processing')
-                            <span class="badge badge-info">Processing</span>
                         @elseif($order->status == 'completed')
-                            <span class="badge badge-dark">Completed</span>
+                            <span class="badge badge-success">Completed</span>
                         @endif
                     </div>
                 </div>
@@ -188,16 +188,16 @@
                         <span class="badge badge-warning">Pending</span> - Order received, awaiting review
                     </li>
                     <li class="mb-2">
-                        <span class="badge badge-success">Approved</span> - Order approved by admin
+                        <span class="badge" style="background-color: #17a2b8; color: white;">Processing</span> - Order being prepared
+                    </li>
+                    <li class="mb-2">
+                        <span class="badge" style="background-color: #3498db; color: white;">Approved</span> - Order approved by admin
                     </li>
                     <li class="mb-2">
                         <span class="badge badge-danger">Rejected</span> - Order rejected
                     </li>
                     <li class="mb-2">
-                        <span class="badge badge-info">Processing</span> - Order being prepared
-                    </li>
-                    <li class="mb-2">
-                        <span class="badge badge-dark">Completed</span> - Order fulfilled
+                        <span class="badge badge-success">Completed</span> - Order fulfilled
                     </li>
                 </ul>
             </div>

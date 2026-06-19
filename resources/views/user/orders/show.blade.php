@@ -36,14 +36,14 @@
                         <strong>Status:</strong><br>
                         @if($order->status == 'pending')
                             <span class="badge badge-warning">Pending</span>
+                        @elseif($order->status == 'processing')
+                            <span class="badge" style="background-color: #17a2b8; color: white;">Processing</span>
                         @elseif($order->status == 'approved')
-                            <span class="badge badge-success">Approved</span>
+                            <span class="badge" style="background-color: #3498db; color: white;">Approved</span>
                         @elseif($order->status == 'rejected')
                             <span class="badge badge-danger">Rejected</span>
-                        @elseif($order->status == 'processing')
-                            <span class="badge badge-info">Processing</span>
                         @elseif($order->status == 'completed')
-                            <span class="badge badge-dark">Completed</span>
+                            <span class="badge badge-success">Completed</span>
                         @endif
                     </div>
                 </div>

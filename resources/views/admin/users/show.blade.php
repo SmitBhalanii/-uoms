@@ -95,7 +95,7 @@
                             </tr>
                             <tr>
                                 <th>Approved Orders</th>
-                                <td><span class="badge badge-success">{{ $user->orders->where('status', 'approved')->count() }}</span></td>
+                                <td><span class="badge" style="background-color: #3498db; color: white;">{{ $user->orders->where('status', 'approved')->count() }}</span></td>
                             </tr>
                             <tr>
                                 <th>Wishlist Items</th>
