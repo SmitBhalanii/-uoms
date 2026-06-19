@@ -30,13 +30,11 @@ class ReportController extends Controller
                 ->limit(12)
                 ->get();
             
-            // Department-wise Orders
-            $departmentOrders = User::select('department', DB::raw('COUNT(orders.id) as order_count'))
-                ->leftJoin('orders', 'users.id', '=', 'orders.user_id')
-                ->whereNotNull('department')
-                ->where('department', '!=', '')
-                ->groupBy('department')
-                ->orderBy('order_count', 'desc')
+            // Low Stock Products (stock_quantity <= 10)
+            $lowStockProducts = Product::where('stock_quantity', '<=', 10)
+                ->where('status', 1)
+                ->orderBy('stock_quantity', 'asc')
+                ->limit(10)
                 ->get();
             
             // Top Ordered Products
@@ -64,7 +62,7 @@ class ReportController extends Controller
             
             return view('admin.reports.index', compact(
                 'monthlyOrders',
-                'departmentOrders',
+                'lowStockProducts',
                 'topProducts',
                 'statusOrders',
                 'chartLabels',
@@ -75,7 +73,7 @@ class ReportController extends Controller
         } catch (\Exception $e) {
             return view('admin.reports.index', [
                 'monthlyOrders' => collect([]),
-                'departmentOrders' => collect([]),
+                'lowStockProducts' => collect([]),
                 'topProducts' => collect([]),
                 'statusOrders' => collect([]),
                 'chartLabels' => [],
@@ -239,6 +237,26 @@ class ReportController extends Controller
     }
 
     /**
+     * Generate low stock products report.
+     */
+    public function lowStockReport(Request $request)
+    {
+        $lowStockProducts = Product::with('brand', 'category')
+            ->where('stock_quantity', '<=', 10)
+            ->where('status', 1)
+            ->orderBy('stock_quantity', 'asc')
+            ->get();
+        
+        $data = compact('lowStockProducts');
+        
+        if ($request->has('export') && $request->export == 'pdf') {
+            return $this->exportLowStockPDF($data);
+        }
+        
+        return view('admin.reports.low-stock', $data);
+    }
+
+    /**
      * Export monthly report to PDF.
      */
     private function exportMonthlyPDF($data)
@@ -287,6 +305,19 @@ class ReportController extends Controller
         $pdf->setPaper('A4', 'portrait');
         
         $filename = ucfirst($data['status']) . "_Orders_Report_" . date('Y-m-d') . ".pdf";
+        
+        return $pdf->download($filename);
+    }
+
+    /**
+     * Export low stock report to PDF.
+     */
+    private function exportLowStockPDF($data)
+    {
+        $pdf = PDF::loadView('admin.reports.pdf.low-stock', $data);
+        $pdf->setPaper('A4', 'portrait');
+        
+        $filename = "Low_Stock_Products_Report_" . date('Y-m-d') . ".pdf";
         
         return $pdf->download($filename);
     }

@@ -62,6 +62,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('reports/monthly', [ReportController::class, 'monthlyReport'])->name('reports.monthly');
     Route::post('reports/custom', [ReportController::class, 'customReport'])->name('reports.custom');
     Route::get('reports/top-products', [ReportController::class, 'topProductsReport'])->name('reports.top-products');
+    Route::get('reports/low-stock', [ReportController::class, 'lowStockReport'])->name('reports.low-stock');
     Route::get('reports/status/{status}', [ReportController::class, 'statusReport'])->name('reports.status');
     
     // User Management

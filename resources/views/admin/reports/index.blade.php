@@ -134,7 +134,7 @@
 
 <!-- Quick Report Links -->
 <div class="row">
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-3 col-6">
         <div class="card report-card" onclick="window.location='{{ route('admin.reports.top-products') }}'">
             <div class="card-body text-center">
                 <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
@@ -146,7 +146,19 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-3 col-6">
+        <div class="card report-card" onclick="window.location='{{ route('admin.reports.low-stock') }}'">
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                <h5>Low Stock Products</h5>
+                <p class="text-muted">Products with low inventory</p>
+                <a href="{{ route('admin.reports.low-stock') }}" class="btn btn-sm btn-warning">View Report</a>
+                <a href="{{ route('admin.reports.low-stock', ['export' => 'pdf']) }}" class="btn btn-sm btn-danger">Export PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
         <div class="card report-card" onclick="window.location='{{ route('admin.reports.status', 'pending') }}'">
             <div class="card-body text-center">
                 <i class="fas fa-clock fa-3x text-warning mb-3"></i>
@@ -158,7 +170,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-3 col-6">
         <div class="card report-card" onclick="window.location='{{ route('admin.reports.status', 'completed') }}'">
             <div class="card-body text-center">
                 <i class="fas fa-check-double fa-3x text-success mb-3"></i>
@@ -196,15 +208,20 @@
     </div>
 </div>
 
-<!-- Department and Products Charts -->
+<!-- Low Stock and Top Products Charts -->
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-building"></i> Department-wise Orders</h3>
+            <div class="card-header bg-warning">
+                <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i> Low Stock Products Analytics</h3>
+                <div class="card-tools">
+                    <a href="{{ route('admin.reports.low-stock') }}" class="btn btn-sm btn-light">
+                        <i class="fas fa-list"></i> View Full Report
+                    </a>
+                </div>
             </div>
             <div class="card-body">
-                <canvas id="departmentChart" height="120"></canvas>
+                <canvas id="lowStockChart" height="120"></canvas>
             </div>
         </div>
     </div>
@@ -231,8 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const chartData = @json($chartData ?? []);
     const statusLabels = @json($statusLabels ?? []);
     const statusData = @json($statusData ?? []);
-    const departmentLabels = @json($departmentOrders->pluck('department') ?? []);
-    const departmentData = @json($departmentOrders->pluck('order_count') ?? []);
+    const lowStockLabels = @json($lowStockProducts->pluck('sku') ?? []);
+    const lowStockData = @json($lowStockProducts->pluck('stock_quantity') ?? []);
     const productLabels = @json($topProducts->pluck('product_name') ?? []);
     const productData = @json($topProducts->pluck('total_ordered') ?? []);
 
@@ -327,19 +344,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 3. Department Bar Chart
-    const deptCtx = document.getElementById('departmentChart');
-    if (deptCtx) {
-        if (departmentLabels.length > 0 && departmentData.length > 0) {
-            new Chart(deptCtx, {
+    // 3. Low Stock Products Bar Chart
+    const lowStockCtx = document.getElementById('lowStockChart');
+    if (lowStockCtx) {
+        if (lowStockLabels.length > 0 && lowStockData.length > 0) {
+            new Chart(lowStockCtx, {
                 type: 'bar',
                 data: {
-                    labels: departmentLabels,
+                    labels: lowStockLabels,
                     datasets: [{
-                        label: 'Orders',
-                        data: departmentData,
-                        backgroundColor: '#17a2b8',
-                        borderColor: '#138496',
+                        label: 'Stock Quantity',
+                        data: lowStockData,
+                        backgroundColor: '#dc3545',
+                        borderColor: '#c82333',
                         borderWidth: 1
                     }]
                 },
@@ -352,21 +369,39 @@ document.addEventListener('DOMContentLoaded', function() {
                         },
                         title: {
                             display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Stock: ' + context.parsed.y + ' pieces';
+                                }
+                            }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
+                            max: 10,
                             ticks: {
-                                stepSize: 1,
+                                stepSize: 2,
                                 precision: 0
+                            },
+                            title: {
+                                display: true,
+                                text: 'Stock Quantity (pieces)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 45
                             }
                         }
                     }
                 }
             });
         } else {
-            deptCtx.parentElement.innerHTML = '<div class="no-data-message"><i class="fas fa-building fa-3x mb-2"></i><br>No data available</div>';
+            lowStockCtx.parentElement.innerHTML = '<div class="no-data-message"><i class="fas fa-check-circle fa-3x mb-2 text-success"></i><br>All products are well stocked!</div>';
         }
     }
 

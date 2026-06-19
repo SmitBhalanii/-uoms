@@ -8,74 +8,70 @@
 @endsection
 
 @push('styles')
+<!-- FullCalendar CSS - Only for Calendar Page -->
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
 <style>
-/* Scope FullCalendar styles to calendar page only */
-.fc {
-    /* FullCalendar styles scoped */
-}
-#calendar {
+/* Scope FullCalendar styles to this page only */
+.calendar-page #calendar {
     max-width: 1200px;
     margin: 0 auto;
 }
-.fc-event {
+.calendar-page .fc-event {
     cursor: pointer;
 }
-.status-legend {
+.calendar-page .status-legend {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
-.status-legend-item {
+.calendar-page .status-legend-item {
     display: flex;
     align-items: center;
     gap: 5px;
 }
-.status-color-box {
+.calendar-page .status-color-box {
     width: 20px;
     height: 20px;
     border-radius: 3px;
-}
-/* Prevent FullCalendar CSS from affecting other pages */
-.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
-    margin-left: 0;
 }
 </style>
 @endpush
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Orders Calendar</h3>
-    </div>
-    <div class="card-body">
-        <!-- Status Legend -->
-        <div class="status-legend">
-            <div class="status-legend-item">
-                <div class="status-color-box" style="background-color: #ffc107;"></div>
-                <span>Pending</span>
-            </div>
-            <div class="status-legend-item">
-                <div class="status-color-box" style="background-color: #17a2b8;"></div>
-                <span>Processing</span>
-            </div>
-            <div class="status-legend-item">
-                <div class="status-color-box" style="background-color: #3498db;"></div>
-                <span>Approved</span>
-            </div>
-            <div class="status-legend-item">
-                <div class="status-color-box" style="background-color: #dc3545;"></div>
-                <span>Rejected</span>
-            </div>
-            <div class="status-legend-item">
-                <div class="status-color-box" style="background-color: #28a745;"></div>
-                <span>Completed</span>
-            </div>
+<div class="calendar-page">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Orders Calendar</h3>
         </div>
+        <div class="card-body">
+            <!-- Status Legend -->
+            <div class="status-legend">
+                <div class="status-legend-item">
+                    <div class="status-color-box" style="background-color: #ffc107;"></div>
+                    <span>Pending</span>
+                </div>
+                <div class="status-legend-item">
+                    <div class="status-color-box" style="background-color: #17a2b8;"></div>
+                    <span>Processing</span>
+                </div>
+                <div class="status-legend-item">
+                    <div class="status-color-box" style="background-color: #3498db;"></div>
+                    <span>Approved</span>
+                </div>
+                <div class="status-legend-item">
+                    <div class="status-color-box" style="background-color: #dc3545;"></div>
+                    <span>Rejected</span>
+                </div>
+                <div class="status-legend-item">
+                    <div class="status-color-box" style="background-color: #28a745;"></div>
+                    <span>Completed</span>
+                </div>
+            </div>
 
-        <!-- Calendar -->
-        <div id='calendar'></div>
+            <!-- Calendar -->
+            <div id='calendar'></div>
+        </div>
     </div>
 </div>
 
