@@ -10,6 +10,10 @@
 @push('styles')
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
 <style>
+/* Scope FullCalendar styles to calendar page only */
+.fc {
+    /* FullCalendar styles scoped */
+}
 #calendar {
     max-width: 1200px;
     margin: 0 auto;
@@ -32,6 +36,10 @@
     width: 20px;
     height: 20px;
     border-radius: 3px;
+}
+/* Prevent FullCalendar CSS from affecting other pages */
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
+    margin-left: 0;
 }
 </style>
 @endpush

@@ -27,7 +27,10 @@ class DashboardController extends Controller
         $totalUsers = User::where('role', 'user')->count();
         $totalDepartments = Department::count();
         $totalProducts = Product::count();
-        $lowStockProducts = Product::where('stock_quantity', '<', 10)->count();
+        // Low stock: products with stock <= 10 (low stock threshold)
+        $lowStockProducts = Product::where('stock_quantity', '<=', 10)
+            ->where('stock_quantity', '>=', 0)
+            ->count();
         
         // Recent Orders
         $recentOrders = Order::with('user', 'orderItems')

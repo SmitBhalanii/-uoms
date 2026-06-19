@@ -8,7 +8,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.css">
 <style>
 .report-card {
     transition: transform 0.2s;
@@ -17,6 +16,18 @@
 .report-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.chart-container {
+    position: relative;
+    min-height: 300px;
+}
+.no-data-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #999;
 }
 </style>
 @endpush
@@ -212,142 +223,194 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Monthly Orders Line Chart
-const ordersCtx = document.getElementById('ordersChart').getContext('2d');
-new Chart(ordersCtx, {
-    type: 'line',
-    data: {
-        labels: @json($chartLabels),
-        datasets: [{
-            label: 'Orders',
-            data: @json($chartData),
-            borderColor: '#007bff',
-            backgroundColor: 'rgba(0, 123, 255, 0.1)',
-            tension: 0.4,
-            fill: true
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top'
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1
+document.addEventListener('DOMContentLoaded', function() {
+    // Chart data from controller
+    const chartLabels = @json($chartLabels ?? []);
+    const chartData = @json($chartData ?? []);
+    const statusLabels = @json($statusLabels ?? []);
+    const statusData = @json($statusData ?? []);
+    const departmentLabels = @json($departmentOrders->pluck('department') ?? []);
+    const departmentData = @json($departmentOrders->pluck('order_count') ?? []);
+    const productLabels = @json($topProducts->pluck('product_name') ?? []);
+    const productData = @json($topProducts->pluck('total_ordered') ?? []);
+
+    // Status color mapping
+    const statusColors = {
+        'Pending': '#ffc107',
+        'Processing': '#17a2b8',
+        'Approved': '#3498db',
+        'Rejected': '#dc3545',
+        'Completed': '#28a745'
+    };
+
+    // 1. Monthly Orders Line Chart
+    const ordersCtx = document.getElementById('ordersChart');
+    if (ordersCtx) {
+        if (chartLabels.length > 0 && chartData.length > 0) {
+            new Chart(ordersCtx, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Orders',
+                        data: chartData,
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0
+                            }
+                        }
+                    }
                 }
-            }
+            });
+        } else {
+            ordersCtx.parentElement.innerHTML = '<div class="no-data-message"><i class="fas fa-chart-line fa-3x mb-2"></i><br>No data available</div>';
         }
     }
-});
 
-// Status Pie Chart
-const statusColors = {
-    'Pending': '#ffc107',
-    'Processing': '#17a2b8',
-    'Approved': '#3498db',
-    'Rejected': '#dc3545',
-    'Completed': '#28a745'
-};
-
-const statusLabels = @json($statusLabels);
-const statusBackgroundColors = statusLabels.map(label => statusColors[label] || '#6c757d');
-
-const statusPieCtx = document.getElementById('statusPieChart').getContext('2d');
-new Chart(statusPieCtx, {
-    type: 'pie',
-    data: {
-        labels: statusLabels,
-        datasets: [{
-            data: @json($statusData),
-            backgroundColor: statusBackgroundColors,
-            borderWidth: 2,
-            borderColor: '#fff'
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: true,
-                position: 'bottom'
-            }
+    // 2. Status Pie Chart
+    const statusPieCtx = document.getElementById('statusPieChart');
+    if (statusPieCtx) {
+        if (statusLabels.length > 0 && statusData.length > 0) {
+            const statusBackgroundColors = statusLabels.map(label => statusColors[label] || '#6c757d');
+            
+            new Chart(statusPieCtx, {
+                type: 'pie',
+                data: {
+                    labels: statusLabels,
+                    datasets: [{
+                        data: statusData,
+                        backgroundColor: statusBackgroundColors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        } else {
+            statusPieCtx.parentElement.innerHTML = '<div class="no-data-message"><i class="fas fa-chart-pie fa-3x mb-2"></i><br>No data available</div>';
         }
     }
-});
 
-// Department Bar Chart
-const deptCtx = document.getElementById('departmentChart').getContext('2d');
-new Chart(deptCtx, {
-    type: 'bar',
-    data: {
-        labels: @json($departmentOrders->pluck('department')),
-        datasets: [{
-            label: 'Orders',
-            data: @json($departmentOrders->pluck('order_count')),
-            backgroundColor: '#17a2b8',
-            borderColor: '#138496',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1
+    // 3. Department Bar Chart
+    const deptCtx = document.getElementById('departmentChart');
+    if (deptCtx) {
+        if (departmentLabels.length > 0 && departmentData.length > 0) {
+            new Chart(deptCtx, {
+                type: 'bar',
+                data: {
+                    labels: departmentLabels,
+                    datasets: [{
+                        label: 'Orders',
+                        data: departmentData,
+                        backgroundColor: '#17a2b8',
+                        borderColor: '#138496',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0
+                            }
+                        }
+                    }
                 }
-            }
+            });
+        } else {
+            deptCtx.parentElement.innerHTML = '<div class="no-data-message"><i class="fas fa-building fa-3x mb-2"></i><br>No data available</div>';
         }
     }
-});
 
-// Top Products Bar Chart
-const productsCtx = document.getElementById('productsChart').getContext('2d');
-new Chart(productsCtx, {
-    type: 'bar',
-    data: {
-        labels: @json($topProducts->pluck('product_name')),
-        datasets: [{
-            label: 'Total Ordered',
-            data: @json($topProducts->pluck('total_ordered')),
-            backgroundColor: '#28a745',
-            borderColor: '#218838',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        scales: {
-            x: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1
+    // 4. Top Products Horizontal Bar Chart
+    const productsCtx = document.getElementById('productsChart');
+    if (productsCtx) {
+        if (productLabels.length > 0 && productData.length > 0) {
+            new Chart(productsCtx, {
+                type: 'bar',
+                data: {
+                    labels: productLabels,
+                    datasets: [{
+                        label: 'Total Ordered',
+                        data: productData,
+                        backgroundColor: '#28a745',
+                        borderColor: '#218838',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0
+                            }
+                        }
+                    }
                 }
-            }
+            });
+        } else {
+            productsCtx.parentElement.innerHTML = '<div class="no-data-message"><i class="fas fa-box fa-3x mb-2"></i><br>No data available</div>';
         }
     }
 });
