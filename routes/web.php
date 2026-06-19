@@ -58,6 +58,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Reports
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/calendar', [ReportController::class, 'calendar'])->name('reports.calendar');
+    Route::post('reports/monthly', [ReportController::class, 'monthlyReport'])->name('reports.monthly');
+    Route::post('reports/custom', [ReportController::class, 'customReport'])->name('reports.custom');
+    Route::get('reports/top-products', [ReportController::class, 'topProductsReport'])->name('reports.top-products');
+    Route::get('reports/status/{status}', [ReportController::class, 'statusReport'])->name('reports.status');
     
     // User Management
     Route::get('users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');

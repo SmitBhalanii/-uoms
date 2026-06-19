@@ -18,8 +18,10 @@ class DashboardController extends Controller
         // Order Statistics
         $totalOrders = Order::count();
         $pendingOrders = Order::where('status', 'pending')->count();
+        $processingOrders = Order::where('status', 'processing')->count();
         $approvedOrders = Order::where('status', 'approved')->count();
         $rejectedOrders = Order::where('status', 'rejected')->count();
+        $completedOrders = Order::where('status', 'completed')->count();
         
         // Other Statistics
         $totalUsers = User::where('role', 'user')->count();
@@ -36,8 +38,10 @@ class DashboardController extends Controller
         return view('admin.dashboard', compact(
             'totalOrders',
             'pendingOrders',
+            'processingOrders',
             'approvedOrders',
             'rejectedOrders',
+            'completedOrders',
             'totalUsers',
             'totalDepartments',
             'totalProducts',

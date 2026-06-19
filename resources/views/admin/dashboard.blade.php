@@ -6,11 +6,29 @@
     <li class="breadcrumb-item active">Dashboard</li>
 @endsection
 
+@push('styles')
+<style>
+.small-box {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.small-box:hover {
+    transform: translateY(-5px);
+}
+.bg-dark-blue {
+    background-color: #17a2b8 !important;
+}
+.bg-sky-blue {
+    background-color: #3498db !important;
+}
+</style>
+@endpush
+
 @section('content')
-    <!-- Info boxes -->
+    <!-- Order Status Cards -->
     <div class="row">
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-info">
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-info" onclick="window.location='{{ route('admin.orders.index') }}'">
                 <div class="inner">
                     <h3>{{ $totalOrders }}</h3>
                     <p>Total Orders</p>
@@ -21,8 +39,8 @@
                 <a href="{{ route('admin.orders.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-warning" onclick="window.location='{{ route('admin.orders.index', ['status' => 'pending']) }}'">
                 <div class="inner">
                     <h3>{{ $pendingOrders }}</h3>
                     <p>Pending Orders</p>
@@ -33,11 +51,23 @@
                 <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-success">
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-dark-blue" onclick="window.location='{{ route('admin.orders.index', ['status' => 'processing']) }}'">
+                <div class="inner">
+                    <h3>{{ $processingOrders }}</h3>
+                    <p>Processing</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-spinner"></i>
+                </div>
+                <a href="{{ route('admin.orders.index', ['status' => 'processing']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-sky-blue" onclick="window.location='{{ route('admin.orders.index', ['status' => 'approved']) }}'">
                 <div class="inner">
                     <h3>{{ $approvedOrders }}</h3>
-                    <p>Approved Orders</p>
+                    <p>Approved</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-check-circle"></i>
@@ -45,16 +75,28 @@
                 <a href="{{ route('admin.orders.index', ['status' => 'approved']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-danger">
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-danger" onclick="window.location='{{ route('admin.orders.index', ['status' => 'rejected']) }}'">
                 <div class="inner">
                     <h3>{{ $rejectedOrders }}</h3>
-                    <p>Rejected Orders</p>
+                    <p>Rejected</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-times-circle"></i>
                 </div>
                 <a href="{{ route('admin.orders.index', ['status' => 'rejected']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-success" onclick="window.location='{{ route('admin.orders.index', ['status' => 'completed']) }}'">
+                <div class="inner">
+                    <h3>{{ $completedOrders }}</h3>
+                    <p>Completed</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-check-double"></i>
+                </div>
+                <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
@@ -70,7 +112,7 @@
                 <div class="icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('admin.users.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <div class="col-lg-3 col-6">
@@ -153,14 +195,14 @@
                                         <td>
                                             @if($order->status == 'pending')
                                                 <span class="badge badge-warning">Pending</span>
+                                            @elseif($order->status == 'processing')
+                                                <span class="badge" style="background-color: #17a2b8; color: white;">Processing</span>
                                             @elseif($order->status == 'approved')
-                                                <span class="badge badge-success">Approved</span>
+                                                <span class="badge" style="background-color: #3498db; color: white;">Approved</span>
                                             @elseif($order->status == 'rejected')
                                                 <span class="badge badge-danger">Rejected</span>
-                                            @elseif($order->status == 'processing')
-                                                <span class="badge badge-info">Processing</span>
                                             @elseif($order->status == 'completed')
-                                                <span class="badge badge-dark">Completed</span>
+                                                <span class="badge badge-success">Completed</span>
                                             @endif
                                         </td>
                                         <td>{{ $order->created_at->format('d M Y') }}</td>
