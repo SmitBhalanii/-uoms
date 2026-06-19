@@ -71,22 +71,38 @@
     </div>
 </div>
 
-<!-- Order Details Modal -->
-<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<!-- Order Details Modal (Bootstrap 5) -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="orderModalLabel">Order Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="orderModalBody">
                 <!-- Order details will be inserted here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a href="#" id="viewOrderBtn" class="btn btn-primary">View Full Order</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" id="viewOrderBtn" class="btn btn-primary" target="_blank">View Full Order</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Date Orders Modal (Bootstrap 5) -->
+<div class="modal fade" id="dateOrdersModal" tabindex="-1" aria-labelledby="dateOrdersModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dateOrdersModalLabel">Orders on <span id="selectedDate"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="dateOrdersModalBody">
+                <!-- Date orders will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -99,22 +115,42 @@
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var events = @json($events);
+    var orderModal;
+    var dateOrdersModal;
+
+    // Initialize Bootstrap 5 modals
+    if (typeof bootstrap !== 'undefined') {
+        orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+        dateOrdersModal = new bootstrap.Modal(document.getElementById('dateOrdersModal'));
+    }
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,listWeek'
+            right: 'dayGridMonth,dayGridWeek,listMonth'
+        },
+        views: {
+            dayGridMonth: {
+                titleFormat: { year: 'numeric', month: 'long' }
+            },
+            dayGridWeek: {
+                titleFormat: { year: 'numeric', month: 'short', day: 'numeric' }
+            },
+            listMonth: {
+                titleFormat: { year: 'numeric', month: 'long' }
+            }
         },
         events: events,
         eventClick: function(info) {
+            info.jsEvent.preventDefault();
             var props = info.event.extendedProps;
             
             var modalBody = `
                 <table class="table table-bordered">
                     <tr>
-                        <th>Order Number</th>
+                        <th style="width: 150px;">Order Number</th>
                         <td><strong>${props.order_number}</strong></td>
                     </tr>
                     <tr>
@@ -131,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </tr>
                     <tr>
                         <th>Status</th>
-                        <td><span class="badge" style="background-color: ${info.event.backgroundColor}">${props.status}</span></td>
+                        <td><span class="badge" style="background-color: ${info.event.backgroundColor}; color: white;">${props.status}</span></td>
                     </tr>
                     <tr>
                         <th>Date</th>
@@ -143,11 +179,80 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('orderModalBody').innerHTML = modalBody;
             document.getElementById('viewOrderBtn').href = '/admin/orders/' + info.event.id;
             
-            $('#orderModal').modal('show');
+            if (orderModal) {
+                orderModal.show();
+            }
+        },
+        dateClick: function(info) {
+            var clickedDate = info.dateStr;
+            var dateOrders = events.filter(function(event) {
+                return event.start === clickedDate;
+            });
+
+            if (dateOrders.length === 0) {
+                alert('No orders on this date');
+                return;
+            }
+
+            var formattedDate = new Date(clickedDate).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            document.getElementById('selectedDate').innerText = formattedDate;
+
+            var tableHtml = `
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Order Number</th>
+                                <th>Lab Manager</th>
+                                <th>Department</th>
+                                <th>Total Items</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            dateOrders.forEach(function(order) {
+                tableHtml += `
+                    <tr>
+                        <td><strong>${order.extendedProps.order_number}</strong></td>
+                        <td>${order.extendedProps.user}</td>
+                        <td>${order.extendedProps.department}</td>
+                        <td>${order.extendedProps.total_items}</td>
+                        <td><span class="badge" style="background-color: ${order.backgroundColor}; color: white;">${order.extendedProps.status}</span></td>
+                        <td>
+                            <a href="/admin/orders/${order.id}" class="btn btn-sm btn-info" target="_blank">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHtml += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            document.getElementById('dateOrdersModalBody').innerHTML = tableHtml;
+
+            if (dateOrdersModal) {
+                dateOrdersModal.show();
+            }
         },
         eventDidMount: function(info) {
             info.el.style.cursor = 'pointer';
-        }
+        },
+        // Date-based calendar settings
+        allDaySlot: true,
+        eventDisplay: 'block'
     });
 
     calendar.render();
