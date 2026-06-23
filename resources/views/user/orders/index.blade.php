@@ -14,8 +14,8 @@
             <div class="card-header">
                 <h3 class="card-title">My Orders</h3>
                 <div class="card-tools">
-                    <a href="{{ route('user.orders.create') }}" class="btn btn-sm btn-success">
-                        <i class="fas fa-plus"></i> New Order
+                    <a href="{{ route('user.cart.index') }}" class="btn btn-sm btn-success">
+                        <i class="fas fa-shopping-cart"></i> View Cart
                     </a>
                 </div>
             </div>
@@ -54,9 +54,13 @@
                 </form>
 
                 @if($orders->isEmpty())
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> No orders found. 
-                        <a href="{{ route('user.orders.create') }}">Place your first order</a>.
+                    <div class="alert alert-info text-center py-4">
+                        <i class="fas fa-info-circle fa-2x mb-2"></i>
+                        <h5>No orders found</h5>
+                        <p>You haven't placed any orders yet.</p>
+                        <a href="{{ route('user.products.index') }}" class="btn btn-primary">
+                            <i class="fas fa-shopping-bag"></i> Browse Products
+                        </a>
                     </div>
                 @else
                     <div class="table-responsive">
