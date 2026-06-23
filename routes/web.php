@@ -87,15 +87,21 @@ Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(functi
     Route::get('/products', [UserProductController::class, 'index'])->name('products.index');
     Route::get('/products/{product}', [UserProductController::class, 'show'])->name('products.show');
     
-    // Wishlist
+    // Cart
+    Route::get('/cart', [App\Http\Controllers\User\CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{product}', [App\Http\Controllers\User\CartController::class, 'add'])->name('cart.add');
+    Route::put('/cart/update', [App\Http\Controllers\User\CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{product}', [App\Http\Controllers\User\CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart/clear', [App\Http\Controllers\User\CartController::class, 'clear'])->name('cart.clear');
+    
+    // Wishlist (kept for backward compatibility)
     Route::get('/wishlist', [UserWishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist/add/{product}', [UserWishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{wishlist}', [UserWishlistController::class, 'remove'])->name('wishlist.remove');
     
     // Orders
     Route::get('/orders', [UserOrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/create', [UserOrderController::class, 'create'])->name('orders.create');
-    Route::post('/orders', [UserOrderController::class, 'store'])->name('orders.store');
+    Route::post('/orders/place', [UserOrderController::class, 'placeOrder'])->name('orders.place');
     Route::get('/orders/{order}', [UserOrderController::class, 'show'])->name('orders.show');
     
     // Profile

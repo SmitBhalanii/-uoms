@@ -95,6 +95,22 @@
                         </a>
                     </li>
 
+                    <!-- Cart -->
+                    <li class="nav-item">
+                        <a href="{{ route('user.cart.index') }}" class="nav-link {{ request()->routeIs('user.cart.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-shopping-cart"></i>
+                            <p>
+                                My Cart
+                                @php
+                                    $cartCount = collect(session()->get('cart', []))->sum();
+                                @endphp
+                                @if($cartCount > 0)
+                                    <span class="badge badge-success right">{{ $cartCount }}</span>
+                                @endif
+                            </p>
+                        </a>
+                    </li>
+
                     <!-- Wishlist -->
                     <li class="nav-item">
                         <a href="{{ route('user.wishlist.index') }}" class="nav-link {{ request()->routeIs('user.wishlist.*') ? 'active' : '' }}">
@@ -105,14 +121,6 @@
                                     <span class="badge badge-danger right">{{ auth()->user()->wishlists()->count() }}</span>
                                 @endif
                             </p>
-                        </a>
-                    </li>
-
-                    <!-- New Order -->
-                    <li class="nav-item">
-                        <a href="{{ route('user.orders.create') }}" class="nav-link {{ request()->routeIs('user.orders.create') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-plus-circle"></i>
-                            <p>New Order</p>
                         </a>
                     </li>
 
