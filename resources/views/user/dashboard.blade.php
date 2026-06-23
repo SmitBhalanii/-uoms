@@ -80,8 +80,8 @@
                         Recent Orders
                     </h3>
                     <div class="card-tools">
-                        <a href="{{ route('user.orders.create') }}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-plus"></i> New Order
+                        <a href="{{ route('user.cart.index') }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-shopping-cart"></i> View Cart
                         </a>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                             </table>
                         </div>
                     @else
-                        <p class="text-center text-muted">No orders yet. <a href="{{ route('user.orders.create') }}">Create your first order</a></p>
+                        <p class="text-center text-muted">No orders yet. <a href="{{ route('user.products.index') }}">Browse products to get started</a></p>
                     @endif
                 </div>
             </div>
@@ -170,10 +170,10 @@
                                         <p class="card-text small mb-2">
                                             <strong>Stock: {{ $product->stock_quantity }} pieces</strong>
                                         </p>
-                                        <form action="{{ route('user.wishlist.add', $product) }}" method="POST">
+                                        <form action="{{ route('user.cart.add', $product) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-danger btn-block">
-                                                <i class="fas fa-heart"></i> Add to Wishlist
+                                            <button type="submit" class="btn btn-sm btn-primary btn-block">
+                                                <i class="fas fa-cart-plus"></i> Add to Cart
                                             </button>
                                         </form>
                                     </div>
@@ -199,8 +199,8 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
-                        <a href="{{ route('user.orders.create') }}" class="btn btn-primary btn-block mb-2">
-                            <i class="fas fa-plus-circle"></i> Create New Order
+                        <a href="{{ route('user.cart.index') }}" class="btn btn-primary btn-block mb-2">
+                            <i class="fas fa-shopping-cart"></i> My Cart
                         </a>
                         <a href="{{ route('user.products.index') }}" class="btn btn-info btn-block mb-2">
                             <i class="fas fa-boxes"></i> Browse Products
