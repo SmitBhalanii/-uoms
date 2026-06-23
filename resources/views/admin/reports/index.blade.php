@@ -134,7 +134,7 @@
 
 <!-- Quick Report Links -->
 <div class="row">
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-3 col-6">
         <div class="card report-card" onclick="window.location='{{ route('admin.reports.top-products') }}'">
             <div class="card-body text-center">
                 <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
@@ -146,7 +146,19 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-3 col-6">
+        <div class="card report-card" onclick="window.location='{{ route('admin.reports.low-stock') }}'">
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                <h5>Low Stock Products</h5>
+                <p class="text-muted">Products with low inventory</p>
+                <a href="{{ route('admin.reports.low-stock') }}" class="btn btn-sm btn-warning">View Report</a>
+                <a href="{{ route('admin.reports.low-stock', ['export' => 'pdf']) }}" class="btn btn-sm btn-danger">Export PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
         <div class="card report-card" onclick="window.location='{{ route('admin.reports.status', 'pending') }}'">
             <div class="card-body text-center">
                 <i class="fas fa-clock fa-3x text-warning mb-3"></i>
@@ -158,7 +170,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-3 col-6">
         <div class="card report-card" onclick="window.location='{{ route('admin.reports.status', 'completed') }}'">
             <div class="card-body text-center">
                 <i class="fas fa-check-double fa-3x text-success mb-3"></i>

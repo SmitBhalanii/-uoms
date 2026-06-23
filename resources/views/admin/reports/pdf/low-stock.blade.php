@@ -137,7 +137,7 @@
         <div class="company-name">Divine Infoservice</div>
         <h1>Low Stock Products Report</h1>
         <div class="report-info">
-            Generated on: {{ now()->format('F d, Y \a\t h:i A') }}
+            Generated on: {{ date('d M Y, h:i A') }}
         </div>
     </div>
 
@@ -215,7 +215,7 @@
     <!-- Footer -->
     <div class="footer">
         <p>Divine Infoservice - University Ordering Management System (UOMS)</p>
-        <p>Report Generated: {{ now()->format('F d, Y \a\t h:i A') }}</p>
+        <p>Report Generated: {{ date('d M Y, h:i A') }}</p>
     </div>
 </body>
 </html>
