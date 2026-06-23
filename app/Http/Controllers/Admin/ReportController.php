@@ -30,13 +30,6 @@ class ReportController extends Controller
                 ->limit(12)
                 ->get();
             
-            // Low Stock Products (stock_quantity <= 10)
-            $lowStockProducts = Product::where('stock_quantity', '<=', 10)
-                ->where('status', 1)
-                ->orderBy('stock_quantity', 'asc')
-                ->limit(10)
-                ->get();
-            
             // Top Ordered Products
             $topProducts = Product::select('products.*', DB::raw('COALESCE(SUM(order_items.quantity), 0) as total_ordered'))
                 ->leftJoin('order_items', 'products.id', '=', 'order_items.product_id')
@@ -62,7 +55,6 @@ class ReportController extends Controller
             
             return view('admin.reports.index', compact(
                 'monthlyOrders',
-                'lowStockProducts',
                 'topProducts',
                 'statusOrders',
                 'chartLabels',
@@ -73,7 +65,6 @@ class ReportController extends Controller
         } catch (\Exception $e) {
             return view('admin.reports.index', [
                 'monthlyOrders' => collect([]),
-                'lowStockProducts' => collect([]),
                 'topProducts' => collect([]),
                 'statusOrders' => collect([]),
                 'chartLabels' => [],

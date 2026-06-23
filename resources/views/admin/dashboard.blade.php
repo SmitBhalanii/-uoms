@@ -103,7 +103,7 @@
 
     <!-- Second Row -->
     <div class="row">
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-4 col-6">
             <div class="small-box bg-primary">
                 <div class="inner">
                     <h3>{{ $totalUsers }}</h3>
@@ -115,7 +115,7 @@
                 <a href="{{ route('admin.users.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-4 col-6">
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>{{ $totalDepartments }}</h3>
@@ -127,7 +127,7 @@
                 <a href="{{ route('admin.departments.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
+        <div class="col-lg-4 col-6">
             <div class="small-box bg-secondary">
                 <div class="inner">
                     <h3>{{ $totalProducts }}</h3>
@@ -135,18 +135,6 @@
                 </div>
                 <div class="icon">
                     <i class="fas fa-boxes"></i>
-                </div>
-                <a href="{{ route('admin.products.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>{{ $lowStockProducts }}</h3>
-                    <p>Low Stock Products</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-exclamation-triangle"></i>
                 </div>
                 <a href="{{ route('admin.products.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
