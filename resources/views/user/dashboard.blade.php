@@ -53,15 +53,15 @@
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-primary">
                 <div class="inner">
-                    <h3>{{ $wishlistCount }}</h3>
-                    <p>Wishlist Items</p>
+                    <h3>{{ collect(session()->get('cart', []))->sum() }}</h3>
+                    <p>Cart Items</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-shopping-cart"></i>
                 </div>
-                <a href="{{ route('user.wishlist.index') }}" class="small-box-footer">View Wishlist <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('user.cart.index') }}" class="small-box-footer">View Cart <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -204,9 +204,6 @@
                         </a>
                         <a href="{{ route('user.products.index') }}" class="btn btn-info btn-block mb-2">
                             <i class="fas fa-boxes"></i> Browse Products
-                        </a>
-                        <a href="{{ route('user.wishlist.index') }}" class="btn btn-danger btn-block mb-2">
-                            <i class="fas fa-heart"></i> My Wishlist
                         </a>
                         <a href="{{ route('user.orders.index') }}" class="btn btn-success btn-block mb-2">
                             <i class="fas fa-history"></i> Order History

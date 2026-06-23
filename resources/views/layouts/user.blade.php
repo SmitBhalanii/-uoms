@@ -111,19 +111,6 @@
                         </a>
                     </li>
 
-                    <!-- Wishlist -->
-                    <li class="nav-item">
-                        <a href="{{ route('user.wishlist.index') }}" class="nav-link {{ request()->routeIs('user.wishlist.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-heart"></i>
-                            <p>
-                                Wishlist
-                                @if(auth()->user()->wishlists()->count() > 0)
-                                    <span class="badge badge-danger right">{{ auth()->user()->wishlists()->count() }}</span>
-                                @endif
-                            </p>
-                        </a>
-                    </li>
-
                     <!-- Order History -->
                     <li class="nav-item">
                         <a href="{{ route('user.orders.index') }}" class="nav-link {{ request()->routeIs('user.orders.index') || request()->routeIs('user.orders.show') ? 'active' : '' }}">

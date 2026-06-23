@@ -19,7 +19,6 @@ class DashboardController extends Controller
         $totalOrders = $user->orders()->count();
         $pendingOrders = $user->orders()->where('status', 'pending')->count();
         $approvedOrders = $user->orders()->where('status', 'approved')->count();
-        $wishlistCount = $user->wishlists()->count();
         
         // Recent Orders
         $recentOrders = $user->orders()
@@ -40,7 +39,6 @@ class DashboardController extends Controller
             'totalOrders',
             'pendingOrders',
             'approvedOrders',
-            'wishlistCount',
             'recentOrders',
             'latestProducts'
         ));
