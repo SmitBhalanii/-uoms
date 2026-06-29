@@ -18,6 +18,7 @@
     <!-- Fix Pagination Arrow Bug & Modern Styles -->
     <style>
         /* ===== FIX PAGINATION ARROW BUG ===== */
+        /* Reset pagination completely */
         .pagination {
             display: flex !important;
             list-style: none !important;
@@ -25,6 +26,7 @@
             padding: 0 !important;
             margin: 0 !important;
         }
+        
         .pagination .page-link {
             position: relative !important;
             display: block !important;
@@ -39,28 +41,48 @@
             height: auto !important;
             font-size: 1rem !important;
             transition: all 0.3s ease !important;
+            max-width: 50px !important;
+            max-height: 40px !important;
         }
+        
+        /* Hide any SVG or icon content in pagination */
+        .pagination .page-link svg,
+        .pagination .page-link i,
+        .pagination .page-link::before,
+        .pagination .page-link::after {
+            display: none !important;
+        }
+        
+        /* Force text content only */
+        .pagination .page-link {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        }
+        
         .pagination .page-link:hover {
             z-index: 2 !important;
             color: #0056b3 !important;
             background-color: #e9ecef !important;
             border-color: #dee2e6 !important;
         }
+        
         .pagination .page-item:first-child .page-link {
             margin-left: 0 !important;
             border-top-left-radius: 0.25rem !important;
             border-bottom-left-radius: 0.25rem !important;
         }
+        
         .pagination .page-item:last-child .page-link {
             border-top-right-radius: 0.25rem !important;
             border-bottom-right-radius: 0.25rem !important;
         }
+        
         .pagination .page-item.active .page-link {
             z-index: 3 !important;
             color: #fff !important;
             background-color: #007bff !important;
             border-color: #007bff !important;
         }
+        
         .pagination .page-item.disabled .page-link {
             color: #6c757d !important;
             pointer-events: none !important;
@@ -70,11 +92,20 @@
             opacity: 0.5 !important;
         }
         
-        /* Hide any rogue FullCalendar elements */
-        .fc-direction-ltr .fc-button-group > * {
+        /* Hide any rogue FullCalendar or AdminLTE elements */
+        .fc-direction-ltr .fc-button-group > *,
+        .fc-toolbar .fc-button,
+        aside .pagination {
             display: inline-block !important;
             width: auto !important;
             height: auto !important;
+        }
+        
+        /* Specifically hide large pseudo elements */
+        nav[role="navigation"] .pagination .page-link::before,
+        nav[role="navigation"] .pagination .page-link::after {
+            content: none !important;
+            display: none !important;
         }
         
         /* ===== MODERN LOGO STYLES ===== */
