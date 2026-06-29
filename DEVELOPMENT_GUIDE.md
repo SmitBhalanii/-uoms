@@ -214,52 +214,28 @@ MAIL_PORT=2525
 
 ### Branch Strategy
 
-**main** - Modern gradient UI
-- All Phase 1-4 modernization
-- Latest features
+**main** - Production branch with modern gradient UI
+- All Phase 1-4 modernization complete
+- Latest features and bug fixes
 - Production-ready modern design
 
-**classic-ui** - Original AdminLTE
-- Traditional design
-- All cart features
-- Alternative UI option
+### Making Changes
 
-### Working with Branches
-
-**Making Changes**:
+**Standard Workflow**:
 ```bash
-# Modern UI
-git checkout main
-# ... make changes ...
+# Make your changes
 git add .
-git commit -m "feat: Description"
+git commit -m "feat: Description of changes"
 git push origin main
-
-# Classic UI
-git checkout classic-ui
-# ... make changes ...
-git add .
-git commit -m "feat: Description"
-git push origin classic-ui
 ```
 
-**Cherry-picking Bug Fixes**:
+**Always clear cache after updates**:
 ```bash
-# Fix in main first
-git checkout main
-# ... fix bug ...
-git commit -m "fix: Bug description"
-
-# Apply to classic-ui
-git checkout classic-ui
-git cherry-pick <commit-hash>
-git push origin classic-ui
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
 ```
-
-**Never Merge Branches!**
-- Keep UI branches separate
-- They are independent implementations
-- Merging will cause conflicts
 
 ---
 

@@ -270,12 +270,6 @@ All notable changes to the University Order Management System.
 - Latest features
 - Production-ready
 
-### classic-ui
-- Created from commit 082921f (before modernization)
-- Original AdminLTE design
-- Alternative UI option
-- All cart system features included
-
 ---
 
 ## Documentation History
@@ -313,15 +307,8 @@ All notable changes to the University Order Management System.
 4. Remove wishlist references
 5. Test order placement through cart
 
-### Switching Branches
+**Always clear cache after updates**:
 ```bash
-# To modern UI
-git checkout main
-php artisan cache:clear
-php artisan config:clear
-
-# To classic UI
-git checkout classic-ui
 php artisan cache:clear
 php artisan config:clear
 ```
