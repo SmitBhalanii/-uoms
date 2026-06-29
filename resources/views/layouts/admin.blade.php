@@ -15,6 +15,89 @@
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- Fix Pagination Arrow Bug & Modern Styles -->
+    <style>
+        /* ===== FIX PAGINATION ARROW BUG ===== */
+        .pagination {
+            display: flex !important;
+            list-style: none !important;
+            border-radius: 0.25rem !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .pagination .page-link {
+            position: relative !important;
+            display: block !important;
+            padding: 0.5rem 0.75rem !important;
+            margin-left: -1px !important;
+            line-height: 1.25 !important;
+            color: #007bff !important;
+            background-color: #fff !important;
+            border: 1px solid #dee2e6 !important;
+            text-decoration: none !important;
+            width: auto !important;
+            height: auto !important;
+            font-size: 1rem !important;
+            transition: all 0.3s ease !important;
+        }
+        .pagination .page-link:hover {
+            z-index: 2 !important;
+            color: #0056b3 !important;
+            background-color: #e9ecef !important;
+            border-color: #dee2e6 !important;
+        }
+        .pagination .page-item:first-child .page-link {
+            margin-left: 0 !important;
+            border-top-left-radius: 0.25rem !important;
+            border-bottom-left-radius: 0.25rem !important;
+        }
+        .pagination .page-item:last-child .page-link {
+            border-top-right-radius: 0.25rem !important;
+            border-bottom-right-radius: 0.25rem !important;
+        }
+        .pagination .page-item.active .page-link {
+            z-index: 3 !important;
+            color: #fff !important;
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+        }
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d !important;
+            pointer-events: none !important;
+            cursor: not-allowed !important;
+            background-color: #fff !important;
+            border-color: #dee2e6 !important;
+            opacity: 0.5 !important;
+        }
+        
+        /* Hide any rogue FullCalendar elements */
+        .fc-direction-ltr .fc-button-group > * {
+            display: inline-block !important;
+            width: auto !important;
+            height: auto !important;
+        }
+        
+        /* ===== MODERN LOGO STYLES ===== */
+        .brand-link .brand-image {
+            width: 40px !important;
+            height: 40px !important;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            border-radius: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            opacity: 1 !important;
+        }
+        
+        .brand-link .brand-image i {
+            color: white !important;
+            font-size: 20px !important;
+        }
+    </style>
+    
     @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -78,7 +161,9 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="{{ route('admin.dashboard') }}" class="brand-link">
-            <img src="https://adminlte.io/themes/v3/dist/img/AdminLTELogo.png" alt="UOMS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <div class="brand-image elevation-3">
+                <i class="fas fa-university"></i>
+            </div>
             <span class="brand-text font-weight-light">UOMS Admin</span>
         </a>
 
