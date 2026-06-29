@@ -146,7 +146,7 @@
             <div class="brand-image elevation-3">
                 <i class="fas fa-university"></i>
             </div>
-            <span class="brand-text font-weight-light">UOMS<br><small>Lab Manager</small></span>
+            <span class="brand-text font-weight-light">UOMS</span>
         </a>
 
         <!-- Sidebar -->
